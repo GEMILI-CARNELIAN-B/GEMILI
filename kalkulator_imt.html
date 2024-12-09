@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <br>
+    <br>
+    <br>
+    
+
+    <title>Kalkulator Indeks Masa Tubuh (IMT) Ibu Hamil</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Indeks Masa Tubuh (IMT) Ibu Hamil</h1>
+        
+        <form id="imtForm">
+            <label for="tinggi">Tinggi Badan (cm):</label>
+            <input type="number" id="tinggi" name="tinggi" required>
+
+            <label for="berat">Berat Badan (kg):</label>
+            <input type="number" id="berat" name="berat" required>
+
+            <button type="button" onclick="hitungIMT()">Hitung IMT</button>
+        </form>
+
+        <div id="hasilIMT" class="hasil">
+            <!-- Hasil IMT akan ditampilkan di sini -->
+        </div>
+
+        <div id="rekomendasi" class="rekomendasi">
+            <!-- Rekomendasi akan ditampilkan di sini -->
+        </div>
+
+        <button onclick="kembali()">Kembali</button>
+    </div>
+
+    <script>
+        function hitungIMT() {
+            const tinggi = document.getElementById("tinggi").value;
+            const berat = document.getElementById("berat").value;
+
+            if (tinggi && berat) {
+                const tinggiMeter = tinggi / 100;  // Mengubah tinggi dari cm ke meter
+                const imt = berat / (tinggiMeter * tinggiMeter);
+
+                let hasil = `IMT Anda adalah: ${imt.toFixed(2)}`;
+                let kategori = "";
+                let rekomendasiBerat = "";
+                let rekomendasiMakanan = "";
+                let rekomendasiPenurunan = "";
+
+                if (imt < 18.5) {
+                    kategori = "Kurang Berat Badan - Perhatikan kenaikan berat badan selama kehamilan.";
+                    rekomendasiBerat = "Kenaikan berat badan yang disarankan adalah 12.5–18 kg.";
+                    rekomendasiMakanan = "Konsumsi makanan bergizi tinggi seperti sayur, buah, protein hewani, dan karbohidrat kompleks.";
+                } else if (imt >= 18.5 && imt <= 24.9) {
+                    kategori = "Normal - Pertahankan pola makan yang sehat.";
+                    rekomendasiBerat = "Kenaikan berat badan yang disarankan adalah 11.5–16 kg.";
+                    rekomendasiMakanan = "Pertahankan pola makan seimbang dengan sayuran, buah, protein sehat, dan karbohidrat.";
+                } else if (imt >= 25 && imt <= 29.9) {
+                    kategori = "Kelebihan Berat Badan - Perhatikan pengelolaan berat badan selama kehamilan.";
+                    rekomendasiBerat = "Kenaikan berat badan yang disarankan adalah 7–11.5 kg.";
+                    rekomendasiMakanan = "Perhatikan porsi makan, pilih makanan rendah lemak, dan perbanyak serat dari buah dan sayur.";
+                    rekomendasiPenurunan = `
+                        <h2>Rekomendasi Penurunan Berat Badan</h2>
+                        <p>Fokus pada pola makan sehat dengan porsi terkontrol, kurangi konsumsi makanan tinggi kalori, dan tambahkan aktivitas fisik ringan seperti berjalan.</p>
+                    `;
+                } else {
+                    kategori = "Obesitas - Perlu perhatian medis mengenai berat badan.";
+                    rekomendasiBerat = "Kenaikan berat badan yang disarankan adalah 5–9 kg.";
+                    rekomendasiMakanan = "Konsultasikan dengan dokter atau ahli gizi untuk diet khusus, fokus pada makanan sehat dan rendah kalori.";
+                    rekomendasiPenurunan = `
+                        <h2>Rekomendasi Penurunan Berat Badan</h2>
+                        <p>Batasi makanan tinggi lemak, gula, dan kalori kosong. Fokus pada makanan berserat tinggi seperti sayur dan buah. Konsultasikan program penurunan berat badan dengan dokter.</p>
+                    `;
+                }
+
+                // Menampilkan hasil IMT dan kategori
+                hasil += `<br>Kategori: ${kategori}`;
+                document.getElementById("hasilIMT").innerHTML = hasil;
+
+                // Menampilkan rekomendasi
+                let rekomendasiHTML = `
+                    <h2>Rekomendasi Berat Badan</h2>
+                    <p>${rekomendasiBerat}</p>
+                    <h2>Rekomendasi Makanan</h2>
+                    <p>${rekomendasiMakanan}</p>
+                    ${rekomendasiPenurunan}
+                `;
+                document.getElementById("rekomendasi").innerHTML = rekomendasiHTML;
+            } else {
+                alert("Harap masukkan nilai yang valid!");
+            }
+        }
+
+        // Fungsi untuk kembali ke halaman utama
+        function kembali() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+</html>
